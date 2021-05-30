@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class ScalingHeader extends StatefulWidget {
   ScalingHeader(
-      {Key key,
+      {Key? key,
       this.leading,
       this.automaticallyImplyLeading = true,
       this.title,
@@ -25,45 +25,45 @@ class ScalingHeader extends StatefulWidget {
       this.flexibleSpaceHeight = 275,
       this.overlapContentHeight = 50,
       this.overlapContentWidth = 300,
-      @required this.overlapContent,
-      @required this.overlapContentBackgroundColor,
+      required this.overlapContent,
+      required this.overlapContentBackgroundColor,
       this.overlapContentRadius = 30});
 
   /// See [AppBar.leading]
-  final Widget leading;
+  final Widget? leading;
 
   /// See [AppBar.automaticallyImplyLeading]
   final bool automaticallyImplyLeading;
 
   /// See [AppBar.title]
-  final Widget title;
+  final Widget? title;
 
   /// See [AppBar.actions]
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// See [AppBar.bottom]
-  final PreferredSizeWidget bottom;
+  final PreferredSizeWidget? bottom;
 
   /// See [AppBar.elevation]
   final double elevation;
 
   /// See [AppBar.backgroundColor]
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// See [AppBar.brightness]
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// See [AppBar.iconTheme]
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// See [AppBar.textTheme]
-  final TextTheme textTheme;
+  final TextTheme? textTheme;
 
   /// See [AppBar.primary]
   final bool primary;
 
   /// See [AppBar.centerTitle]
-  final bool centerTitle;
+  final bool? centerTitle;
 
   /// See [AppBar.titleSpacing]
   final double titleSpacing;
@@ -72,7 +72,7 @@ class ScalingHeader extends StatefulWidget {
   final double bottomOpacity;
 
   /// Expanded widget, usually an Image
-  final Widget flexibleSpace;
+  final Widget? flexibleSpace;
 
   /// Max height of [flexibleSpace]
   final double flexibleSpaceHeight;
@@ -99,11 +99,11 @@ class ScalingHeader extends StatefulWidget {
 class _ScalingHeaderState extends State<ScalingHeader>
     with SingleTickerProviderStateMixin {
   ValueNotifier<double> _shrinkOffsetNotifier = ValueNotifier<double>(0);
-  AnimationController _animationController;
+  late AnimationController _animationController;
   bool _isExpanded = true;
-  double expandedHeight;
-  double overlapContentHeight;
-  double overlapContentWidth;
+  double? expandedHeight;
+  double? overlapContentHeight;
+  double? overlapContentWidth;
 
   @override
   void initState() {
@@ -114,7 +114,7 @@ class _ScalingHeaderState extends State<ScalingHeader>
 
     _shrinkOffsetNotifier.addListener(() {
       final offset =
-          expandedHeight - (kToolbarHeight + overlapContentHeight / 2);
+          expandedHeight! - (kToolbarHeight + overlapContentHeight! / 2);
       if (_isExpanded && _shrinkOffsetNotifier.value > offset) {
         _isExpanded = false;
         _animationController.forward();
@@ -142,7 +142,7 @@ class _ScalingHeaderState extends State<ScalingHeader>
       bottom: widget.bottom,
       elevation: widget.elevation,
       backgroundColor: widget.backgroundColor != null
-          ? widget.backgroundColor.withOpacity(_animationController.value)
+          ? widget.backgroundColor!.withOpacity(_animationController.value)
           : Theme.of(context)
               .primaryColor
               .withOpacity(_animationController.value),
@@ -186,11 +186,11 @@ class Header extends SliverPersistentHeaderDelegate {
       this.topPadding);
 
   final ValueNotifier<double> shrinkOffsetNotifier;
-  final double expandedHeight;
-  final double overlapContentHeight;
-  final double overlapContentWidth;
+  final double? expandedHeight;
+  final double? overlapContentHeight;
+  final double? overlapContentWidth;
   final PreferredSizeWidget appBar;
-  final Widget flexibleSpace;
+  final Widget? flexibleSpace;
   final Widget overlapContent;
   final Color overlapContentBackgroundColor;
   final double overlapContentRadius;
@@ -202,8 +202,8 @@ class Header extends SliverPersistentHeaderDelegate {
     shrinkOffsetNotifier.value = shrinkOffset;
     final width = MediaQuery.of(context).size.width;
     final offset =
-        expandedHeight - (kToolbarHeight + topPadding + overlapContentHeight);
-    final distance = width - overlapContentWidth;
+        expandedHeight! - (kToolbarHeight + topPadding + overlapContentHeight!);
+    final distance = width - overlapContentWidth!;
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -215,8 +215,8 @@ class Header extends SliverPersistentHeaderDelegate {
               left: 0,
               right: 0,
               //height: overlapContentHeight,
-              bottom: overlapContentHeight / 2,
-              child: flexibleSpace,
+              bottom: overlapContentHeight! / 2,
+              child: flexibleSpace!,
             ),
             Positioned(
               top: 0,
@@ -238,7 +238,7 @@ class Header extends SliverPersistentHeaderDelegate {
                     overlapContentRadius / offset * shrinkOffset),
               ),
               height: overlapContentHeight,
-              width: distance / offset * shrinkOffset + overlapContentWidth,
+              width: distance / offset * shrinkOffset + overlapContentWidth!,
               child: overlapContent,
             ),
           ),
@@ -248,10 +248,10 @@ class Header extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => expandedHeight;
+  double get maxExtent => expandedHeight!;
 
   @override
-  double get minExtent => kToolbarHeight + topPadding + overlapContentHeight;
+  double get minExtent => kToolbarHeight + topPadding + overlapContentHeight!;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

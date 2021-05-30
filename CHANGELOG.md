@@ -1,3 +1,6 @@
+## [2.0.0] - 05/30/2020
+* Updates the lib for null safety (Chrystoffer Kugler Horochovec)
+
 ## [1.1.1] - 01/17/2019
 
 * Fix position of `flexibleSpace`
